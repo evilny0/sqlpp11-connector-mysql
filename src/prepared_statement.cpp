@@ -135,6 +135,29 @@ namespace sqlpp
       param.error = nullptr;
     }
 
+    void prepared_statement_t::_bind_decimal_parameter(size_t index, const boost::multiprecision::mpf_float_50* value, bool is_null)
+    {
+      if (_handle->debug)
+        std::cerr << "MySQL debug: binding decimal " << *value << " at index: " << index << ", being "
+                  << (is_null ? "" : "not ") << "null" << std::endl;
+
+      auto& bound_str = _handle->stmt_decimal_param_buffer[index];
+      if (not is_null)
+      {
+        bound_str = value->str();
+      }
+
+      _handle->stmt_param_is_null[index] = is_null;
+      MYSQL_BIND& param = _handle->stmt_params[index];
+      param.buffer_type = MYSQL_TYPE_NEWDECIMAL;
+      param.buffer = const_cast<char*>(bound_str.data());
+      param.buffer_length = bound_str.length();
+      param.length = &param.buffer_length;
+      param.is_null = &_handle->stmt_param_is_null[index];
+      param.is_unsigned = false;
+      param.error = nullptr;
+    }
+
     void prepared_statement_t::_bind_date_parameter(size_t index, const ::sqlpp::chrono::day_point* value, bool is_null)
     {
       if (_handle->debug)

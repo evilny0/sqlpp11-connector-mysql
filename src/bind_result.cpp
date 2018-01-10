@@ -196,6 +196,27 @@ namespace sqlpp
       param.error = &meta_data.bound_error;
     }
 
+    void bind_result_t::_bind_decimal_result(size_t index, boost::multiprecision::mpf_float_50* value, bool* is_null)
+    {
+      if (_handle->debug)
+        std::cerr << "MySQL debug: binding decimal result " << static_cast<void*>(value) << " at index: " << index
+                  << std::endl;
+
+      detail::result_meta_data_t& meta_data = _handle->result_param_meta_data[index];
+      meta_data.index = index;
+      meta_data.len = nullptr;
+      meta_data.is_null = is_null;
+
+      MYSQL_BIND& param = _handle->result_params[index];
+      param.buffer_type = MYSQL_TYPE_DECIMAL;
+      param.buffer = value;
+      param.buffer_length = sizeof(*value);
+      param.length = &meta_data.bound_len;
+      param.is_null = &meta_data.bound_is_null;
+      param.is_unsigned = false;
+      param.error = &meta_data.bound_error;
+    }
+
     void bind_result_t::_post_bind_date_result(size_t index, ::sqlpp::chrono::day_point* value, bool* is_null)
     {
       if (_handle->debug)

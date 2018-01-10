@@ -30,6 +30,7 @@
 #include <memory>
 #include <string>
 #include <sqlpp11/chrono.h>
+#include <boost/multiprecision/gmp.hpp>
 
 namespace sqlpp
 {
@@ -70,6 +71,7 @@ namespace sqlpp
       void _bind_text_parameter(size_t index, const std::string* value, bool is_null);
       void _bind_date_parameter(size_t index, const ::sqlpp::chrono::day_point* value, bool is_null);
       void _bind_date_time_parameter(size_t index, const ::sqlpp::chrono::microsecond_point* value, bool is_null);
+      void _bind_decimal_parameter(size_t index, const boost::multiprecision::mpf_float_50* value, bool is_null);
     };
   }
 }

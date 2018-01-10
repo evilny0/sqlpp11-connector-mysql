@@ -29,6 +29,7 @@
 
 #include <memory>
 #include <sqlpp11/chrono.h>
+#include <boost/multiprecision/gmp.hpp>
 
 namespace sqlpp
 {
@@ -95,6 +96,7 @@ namespace sqlpp
       void _bind_text_result(size_t index, const char** text, size_t* len);
       void _bind_date_result(size_t index, ::sqlpp::chrono::day_point* value, bool* is_null);
       void _bind_date_time_result(size_t index, ::sqlpp::chrono::microsecond_point* value, bool* is_null);
+      void _bind_decimal_result(size_t index, boost::multiprecision::mpf_float_50* value, bool* is_null);
 
       void _post_bind_boolean_result(size_t /* index */, signed char* /* value */, bool* /* is_null */)
       {
@@ -113,6 +115,7 @@ namespace sqlpp
       }
       void _post_bind_date_result(size_t index, ::sqlpp::chrono::day_point* value, bool* is_null);
       void _post_bind_date_time_result(size_t index, ::sqlpp::chrono::microsecond_point* value, bool* is_null);
+      void _post_bind_decimal_result(size_t index, boost::multiprecision::mpf_float_50* value, bool* is_null);
 
     private:
       void bind_impl();

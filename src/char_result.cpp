@@ -83,6 +83,26 @@ namespace sqlpp
       }
     }
 
+    void char_result_t::_bind_decimal_result(size_t index, boost::multiprecision::mpf_float_50* value, bool* is_null)
+    {
+      if (_handle->debug)
+        std::cerr << "MySQL debug: parsing decimal result at index: " << index << std::endl;
+
+      *is_null = (_char_result_row.data == nullptr or _char_result_row.data[index] == nullptr);
+      if (*is_null)
+      {
+        *value = 0;
+        return;
+      }
+
+      const auto decimal_string = _char_result_row.data[index];
+      if (_handle->debug)
+        std::cerr << "MySQL debug: decimal string: " << decimal_string << std::endl;
+
+      boost::multiprecision::mpf_float_50 mpf_value(decimal_string);
+      *value = mpf_value;
+    }
+
     void char_result_t::_bind_date_result(size_t index, ::sqlpp::chrono::day_point* value, bool* is_null)
     {
       if (_handle->debug)

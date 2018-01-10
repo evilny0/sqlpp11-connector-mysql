@@ -32,6 +32,7 @@
 #include <sqlpp11/chrono.h>
 #include <sqlpp11/exception.h>
 #include <sqlpp11/mysql/char_result_row.h>
+#include <boost/multiprecision/gmp.hpp>
 
 namespace sqlpp
 {
@@ -119,6 +120,7 @@ namespace sqlpp
 
       void _bind_date_result(size_t index, ::sqlpp::chrono::day_point* value, bool* is_null);
       void _bind_date_time_result(size_t index, ::sqlpp::chrono::microsecond_point* value, bool* is_null);
+      void _bind_decimal_result(size_t index, boost::multiprecision::mpf_float_50* value, bool* is_null);
 
     private:
       bool next_impl();

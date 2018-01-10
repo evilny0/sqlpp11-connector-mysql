@@ -29,6 +29,7 @@
 
 #include <mysql.h>
 #include <vector>
+#include <string>
 
 namespace sqlpp
 {
@@ -53,6 +54,7 @@ namespace sqlpp
         MYSQL_STMT* mysql_stmt;
         std::vector<MYSQL_BIND> stmt_params;
         std::vector<MYSQL_TIME> stmt_date_time_param_buffer;
+        std::vector<std::string> stmt_decimal_param_buffer;
         std::vector<my_bool> stmt_param_is_null;
         std::vector<MYSQL_BIND> result_params;
         std::vector<result_meta_data_t> result_param_meta_data;
